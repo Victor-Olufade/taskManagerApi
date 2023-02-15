@@ -1,13 +1,22 @@
-import express, {Request, Response, Express} from 'express';
+import express, {Express} from 'express';
 import morgan from 'morgan';
 import { DataSource } from 'typeorm';
 import 'reflect-metadata';
+import cors from 'cors';
+import { Task } from './src/tasks/tasksEntity';
+import taskRouter from './src/tasks/tasksRouter'
 import dotenv from 'dotenv';
 
 dotenv.config()
 const app: Express = express()
 
+app.use(express.json())
+
 app.use(morgan('dev'))
+
+app.use(cors())
+
+
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -16,12 +25,11 @@ export const AppDataSource = new DataSource({
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DB,
+    entities: [Task],
     synchronize: true
 })
 
-app.get("/", (req: Request, res: Response)=>{
-    res.send("Express + Typescript")
-})
+
 
 const port = process.env.PORT;
 
@@ -36,6 +44,8 @@ AppDataSource.initialize().then(()=>{
 // export PATH=$PATH:/usr/local/mysql-8.0.27-macos11-x86_64/bin
 // mysql -u root -p
 
+
+app.use('/tasks', taskRouter)
 
 
 

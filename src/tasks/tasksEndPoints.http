@@ -1,0 +1,25 @@
+### fetch all tasks
+
+GET http://localhost:3200/tasks
+Content-Type: application/json
+
+### create a task
+POST http://localhost:3200/tasks
+Content-Type: application/json
+
+{
+    "title": "Study",
+    "date": "2023-11-01T12:00:00Z",
+    "description": "Understanding react hooks and fetching apis",
+    "priority": "normal",
+    "status": "completed"
+}
+
+### update a task
+PUT http://localhost:3200/tasks
+Content-Type: application/json
+
+{
+    "id": "b94a4a68-dc3a-41d5-833d-ef8f08b02388",
+    "status": "inProgress"
+}
